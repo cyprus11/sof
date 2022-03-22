@@ -22,22 +22,22 @@ RSpec.describe AnswersController, type: :controller do
   describe "POST #create" do
     context "with valid data" do
       it 'saves a new answer in the database' do
-        expect { post :create, params: { question_id: question.id, answer: { body: "myBody", question_id: question.id } } }.to change(Answer, :count).by(1)
+        expect { post :create, params: { question_id: question, answer: attributes_for(:answer) } }.to change(Answer, :count).by(1)
       end
 
       it 'redirects to question show view' do
-        post :create, params: { question_id: question.id, answer: { body: "myBody", question_id: question.id } }
+        post :create, params: { question_id: question, answer: attributes_for(:answer) }
         expect(response).to redirect_to assigns(:question)
       end
     end
 
     context "with invalid data" do
       it 'do not save a new answer in the database' do
-        expect { post :create, params: { question_id: question.id, answer: { body: nil, question_id: question.id } } }.to_not change(Answer, :count)
+        expect { post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) } }.to_not change(Answer, :count)
       end
 
       it 're-render a new template' do
-        post :create, params: { question_id: question.id, answer: { body: nil, question_id: question.id } }
+        post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
         expect(response).to render_template :new
       end
     end
