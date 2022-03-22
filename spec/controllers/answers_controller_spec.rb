@@ -32,7 +32,14 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context "with invalid data" do
+      it 'do not save a new answer in the database' do
+        expect { post :create, params: { question_id: question.id, answer: { body: nil, question_id: question.id } } }.to_not change(Answer, :count)
+      end
 
+      it 're-render a new template' do
+        post :create, params: { question_id: question.id, answer: { body: nil, question_id: question.id } }
+        expect(response).to render_template :new
+      end
     end
   end
 
