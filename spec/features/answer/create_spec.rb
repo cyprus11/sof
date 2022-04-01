@@ -7,7 +7,7 @@ feature 'User can create answer', %q{
 
   scenario 'User visit page with question and print answer' do
     visit question_path(question)
-    fill_in 'Answer', with: 'answer on question'
+    fill_in 'Body', with: 'answer on question'
     click_on 'Publish'
 
     expect(page).to have_content question.title
