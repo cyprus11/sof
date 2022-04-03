@@ -1,4 +1,5 @@
 h1= @question.title
 p= @question.body
-= render partial: 'answers/form'
+- if current_user.present?
+  = render partial: 'answers/form'
 = render @question.answers

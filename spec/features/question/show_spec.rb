@@ -5,7 +5,7 @@ feature 'User open page with question', %{
   and answerd on question
 } do
   given(:question) { create(:question) }
-  given!(:answer) { Answer.create(question: question, body: "Answer on question") }
+  given!(:answer) { create(:answer) }
 
   scenario 'User open question page' do
     visit question_path(question)

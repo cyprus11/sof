@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
+  let(:user) { create(:user) }
 
   describe "GET #index" do
-    let(:questions) { create_list(:question, 3) }
+    let!(:questions) { create_list(:question, 3) }
     before { get :index }
 
     it "populates an array of all questions" do
@@ -30,6 +31,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe "GET #new" do
+    before { login(user) }
     before { get :new }
 
     it "assigns a new Question to @question" do
@@ -42,13 +44,15 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe "POST #create" do
+    before { login(user) }
+
     context 'with valid attributes' do
       it 'saves a new question in the database' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+        expect { post :create, params: { question: attributes_for(:question, user_id: user.id) } }.to change(Question, :count).by(1)
       end
 
       it 'redirects to show view' do
-        post :create, params: { question: attributes_for(:question) }
+        post :create, params: { question: attributes_for(:question, user_id: user.id) }
         expect(response).to redirect_to assigns(:question)
       end
     end

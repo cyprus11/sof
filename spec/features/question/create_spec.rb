@@ -4,6 +4,9 @@ feature 'User can create question', %q{
   In order to get answer from a community
   I'd like to be able to ask the question
 } do
+  given(:user) { create(:user) }
+  background { sign_in(user) }
+
   scenario 'User create question' do
     visit questions_path
     click_on 'Ask question'

@@ -4,6 +4,8 @@ feature 'User can create answer', %q{
   get an answer on a question
 } do
   given(:question) { create(:question) }
+  given(:user) { create(:user) }
+  background { sign_in(user) }
 
   scenario 'User visit page with question and print answer' do
     visit question_path(question)
