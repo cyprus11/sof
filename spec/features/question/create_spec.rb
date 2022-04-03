@@ -7,23 +7,25 @@ feature 'User can create question', %q{
   given(:user) { create(:user) }
   background { sign_in(user) }
 
-  scenario 'User create question' do
-    visit questions_path
-    click_on 'Ask question'
-    fill_in 'Title', with: 'Question title'
-    fill_in 'Body', with: 'my question'
-    click_on 'Ask'
+  describe 'Authenticated user' do
+    scenario 'create question' do
+      visit questions_path
+      click_on 'Ask question'
+      fill_in 'Title', with: 'Question title'
+      fill_in 'Body', with: 'my question'
+      click_on 'Ask'
 
-    expect(page).to have_content 'Your question successfully created'
-    expect(page).to have_content 'Question title'
-    expect(page).to have_content 'my question'
-  end
+      expect(page).to have_content 'Your question successfully created'
+      expect(page).to have_content 'Question title'
+      expect(page).to have_content 'my question'
+    end
 
-  scenario 'User create error question' do
-    visit questions_path
-    click_on 'Ask question'
-    click_on 'Ask'
+    scenario 'create error question' do
+      visit questions_path
+      click_on 'Ask question'
+      click_on 'Ask'
 
-    expect(page).to have_content "Title can't be blank"
+      expect(page).to have_content "Title can't be blank"
+    end
   end
 end
