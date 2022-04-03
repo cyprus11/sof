@@ -4,10 +4,10 @@ feature 'User can create question', %q{
   In order to get answer from a community
   I'd like to be able to ask the question
 } do
-  given(:user) { create(:user) }
-  background { sign_in(user) }
-
   describe 'Authenticated user' do
+    given(:user) { create(:user) }
+    background { sign_in(user) }
+
     scenario 'create question' do
       visit questions_path
       click_on 'Ask question'
@@ -27,5 +27,11 @@ feature 'User can create question', %q{
 
       expect(page).to have_content "Title can't be blank"
     end
+  end
+
+  scenario 'Nonauthenticated user create question' do
+    visit new_question_path
+
+    expect(page).to have_content "Sign in"
   end
 end
