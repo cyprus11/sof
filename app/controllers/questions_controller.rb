@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
-  before_action :set_question, only: :show
+  before_action :set_question, only: %i[show destroy]
 
   def index
     @questions = Question.all
@@ -21,6 +21,15 @@ class QuestionsController < ApplicationController
       redirect_to @question, notice: 'Your question successfully created'
     else
       render :new
+    end
+  end
+
+  def destroy
+    if current_user == @question.user
+      @question.destroy!
+      redirect_to root_path, notice: 'Your question was deleted'
+    else
+      redirect_to @question
     end
   end
 
