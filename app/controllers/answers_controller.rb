@@ -6,12 +6,15 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
 
-    @answer.save
-    redirect_to question_path(@question)
+    if @answer.save
+      redirect_to question_path(@question)
+    else
+      render 'questions/show'
+    end
   end
 
   def destroy
-    if current_user == @answer.user
+    if current_user&.author_of?(@answer)
       @answer.destroy!
       redirect_to question_path(@answer.question), notice: 'Your answer was deleted'
     else
@@ -30,6 +33,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, :user_id)
+    params.require(:answer).permit(:body)
   end
 end

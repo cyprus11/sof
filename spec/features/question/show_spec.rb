@@ -5,13 +5,15 @@ feature 'User open page with question', %{
   and answerd on question
 } do
   given(:question) { create(:question) }
-  given!(:answer) { create(:answer) }
+  given!(:answers) { create_list(:answer, 5, question: question) }
 
   scenario 'User open question page' do
     visit question_path(question)
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
-    expect(page).to have_content answer.body
+    answers.each do |answer|
+      expect(page).to have_content answer.body
+    end
   end
 end
