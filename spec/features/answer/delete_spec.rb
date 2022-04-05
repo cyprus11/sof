@@ -27,7 +27,7 @@ feature 'User delete answer', %q{
     end
   end
 
-  describe 'Authenticated user' do
+  describe 'Not-authenticated user' do
     given!(:answer) { create(:answer, user: user, question: question) }
 
     scenario 'tries delete answer' do
