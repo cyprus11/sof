@@ -14,6 +14,7 @@ feature 'User delete answer', %q{
 
     scenario 'tries delete his answer' do
       visit question_path(question)
+      expect(page).to have_content answer.body
       click_on 'Delete answer'
 
       expect(page).to have_content 'Your answer was deleted'

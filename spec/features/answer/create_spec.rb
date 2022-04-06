@@ -18,6 +18,13 @@ feature 'User can create answer', %q{
       expect(page).to have_content question.body
       expect(page).to have_content 'answer on question'
     end
+
+    scenario 'visit page with question and print error answer' do
+      visit question_path(question)
+      click_on 'Publish'
+
+      expect(page).to have_content "Body can't be blank"
+    end
   end
 
   scenario 'Unauthenticated user visit page with question and print answer' do

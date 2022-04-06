@@ -11,6 +11,8 @@ feature "User delete a question ", %q{
     scenario "User tries delete his question" do
       sign_in(user)
       visit question_path(question)
+      expect(page).to have_content question.body
+      expect(page).to have_content question.title
       click_on 'Delete question'
 
       expect(page).to have_content 'Your question was deleted'
