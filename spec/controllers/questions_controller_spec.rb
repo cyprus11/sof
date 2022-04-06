@@ -2,10 +2,9 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
-  let(:user) { create(:user) }
 
   describe "GET #index" do
-    let!(:questions) { create_list(:question, 3) }
+    let(:questions) { create_list(:question, 3) }
     before { get :index }
 
     it "populates an array of all questions" do
@@ -31,7 +30,6 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe "GET #new" do
-    before { login(user) }
     before { get :new }
 
     it "assigns a new Question to @question" do
@@ -44,15 +42,13 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe "POST #create" do
-    before { login(user) }
-
     context 'with valid attributes' do
       it 'saves a new question in the database' do
-        expect { post :create, params: { question: attributes_for(:question, user_id: user.id) } }.to change(Question, :count).by(1)
+        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
       end
 
       it 'redirects to show view' do
-        post :create, params: { question: attributes_for(:question, user_id: user.id) }
+        post :create, params: { question: attributes_for(:question) }
         expect(response).to redirect_to assigns(:question)
       end
     end
@@ -62,40 +58,10 @@ RSpec.describe QuestionsController, type: :controller do
         expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
       end
 
+
       it 're-renders new view' do
         post :create, params: { question: attributes_for(:question, :invalid) }
         expect(response).to render_template :new
-      end
-    end
-  end
-
-  describe 'DELETE #destroy' do
-    context 'with valid user' do
-      let!(:question_user) { question.user }
-      before { login(question_user) }
-
-      it 'deletes a question' do
-        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
-      end
-
-      it 'redirect to root page' do
-        delete :destroy, params: { id: question }
-        expect(response).to redirect_to root_path
-      end
-    end
-
-    context 'with invalid user' do
-      let(:invalid_user) { create(:user) }
-      let!(:question) { create(:question) }
-      before { login(invalid_user) }
-
-      it 'will not delete a question' do
-        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
-      end
-
-      it 'redirect to question page' do
-        delete :destroy, params: { id: question }
-        expect(response).to redirect_to assigns(:question)
       end
     end
   end
