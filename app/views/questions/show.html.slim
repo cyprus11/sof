@@ -1,7 +1,9 @@
-h1= @question.title
-p= @question.body
+h1.question-title= @question.title
+p.question-body= @question.body
+.question-form
 - if current_user&.author_of?(@question)
   = link_to 'Delete question', question_path(@question), method: :delete
+  = link_to 'Edit question', edit_question_path(@question), remote: true
 .answers
   = render @question.answers
 - if current_user.present?

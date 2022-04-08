@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
-  before_action :set_question, only: %i[show destroy]
+  before_action :set_question, only: %i[show destroy edit update]
 
   def index
     @questions = Question.all
@@ -30,6 +30,15 @@ class QuestionsController < ApplicationController
       redirect_to root_path, notice: 'Your question was deleted'
     else
       redirect_to @question
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    if current_user.author_of?(@question)
+      @question.update(question_params)
     end
   end
 
