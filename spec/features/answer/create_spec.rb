@@ -6,7 +6,7 @@ feature 'User can create answer', %q{
   given(:question) { create(:question) }
   given(:user) { create(:user) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background { sign_in(user) }
 
     scenario 'visit page with question and print answer' do
@@ -16,7 +16,10 @@ feature 'User can create answer', %q{
 
       expect(page).to have_content question.title
       expect(page).to have_content question.body
-      expect(page).to have_content 'answer on question'
+
+      within '.answers' do
+        expect(page).to have_content 'answer on question'
+      end
     end
 
     scenario 'visit page with question and print error answer' do
