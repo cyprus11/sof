@@ -1,7 +1,7 @@
-.answer-error
+div class = "answer-error-#{@answer.id}"
   = render 'shared/errors', resource: @answer
 
-= form_with model: [@question, @answer], local: false, html: { class: 'new_answer' } do |f|
-  = f.label :body
-  = f.text_area :body, id: 'answer_body'
-  = f.submit 'Publish'
+= form_with model: @answer, local: false do |f|
+  = f.label :body, 'Edited answer body', for: 'edited_body'
+  = f.text_area :body, id: 'edited_body'
+  = f.submit

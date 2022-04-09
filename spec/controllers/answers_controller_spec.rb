@@ -58,4 +58,23 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe "GET #edit" do
+    let!(:answer) { create(:answer, question: question, user: user) }
+
+    it 'with valid user will render edit template' do
+      login(user)
+      get :edit, params: { id: answer.id, format: :js }, xhr: true
+      expect(response).to render_template :edit
+    end
+  end
+
+  describe "PUT #update" do
+    let!(:answer) { create(:answer, question: question, user: user) }
+
+    it 'with valid user will render edit template' do
+      login(user)
+      put :update, params: { id: answer.id, answer: { body: 'other answer' }, format: :js }
+      expect(response).to render_template :update
+    end
+  end
 end

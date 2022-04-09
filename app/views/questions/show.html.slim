@@ -7,4 +7,10 @@ p.question-body= @question.body
 .answers
   = render @question.answers
 - if current_user.present?
-  = render partial: 'answers/form'
+  .answer-error
+    = render 'shared/errors', resource: @answer
+
+  = form_with model: [@question, @answer], local: false, html: { class: 'new_answer' } do |f|
+    = f.label :body
+    = f.text_area :body
+    = f.submit

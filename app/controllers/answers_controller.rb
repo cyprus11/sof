@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :set_question, only: %i[create]
-  before_action :find_answer, only: :destroy
+  before_action :find_answer, only: %i[destroy edit update]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -16,6 +16,14 @@ class AnswersController < ApplicationController
     else
       redirect_to question_path(@answer.question), notice: "You can't do this"
     end
+  end
+
+  def edit
+
+  end
+
+  def update
+    @answer.update(answer_params) if current_user&.author_of?(@answer)
   end
 
   private

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'User edit answer', %q{
-  to chengt something
+  to change something
 } do
   given(:question) { create(:question) }
   given(:user) { create(:user) }
@@ -9,6 +9,7 @@ feature 'User edit answer', %q{
   given(:other_user) { create(:user) }
 
   describe "Authenticated user", js: true do
+
     scenario "edit his answer" do
       sign_in(user)
       visit question_path(question)
@@ -17,7 +18,7 @@ feature 'User edit answer', %q{
       expect(page).to have_content answer.body
       expect(page).to have_content 'Edit answer'
       click_on 'Edit answer'
-      fill_in 'Body', with: 'My edited answer'
+      fill_in 'Edited answer body', with: 'My edited answer'
       click_on 'Update Answer'
 
       expect(page).to have_content 'My edited answer'
@@ -31,7 +32,7 @@ feature 'User edit answer', %q{
       expect(page).to have_content answer.body
       expect(page).to have_content 'Edit answer'
       click_on 'Edit answer'
-      fill_in 'Body', with: ''
+      fill_in 'Edited answer body', with: ''
       click_on 'Update Answer'
 
       expect(page).to have_content "Body can't be blank"
