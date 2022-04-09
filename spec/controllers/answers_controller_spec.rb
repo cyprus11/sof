@@ -51,30 +51,44 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, params: { question_id: question, id: answer } }.to_not change(Answer, :count)
       end
 
-      it 'redirect to question page' do
+      it 'redirect to root page' do
         delete :destroy, params: { question_id: question, id: answer }
-        expect(response).to redirect_to question_path(question)
+        expect(response).to redirect_to root_path
       end
     end
   end
 
   describe "GET #edit" do
     let!(:answer) { create(:answer, question: question, user: user) }
+    let(:other_user) { create(:user) }
 
     it 'with valid user will render edit template' do
       login(user)
       get :edit, params: { id: answer.id, format: :js }, xhr: true
       expect(response).to render_template :edit
     end
+
+    it 'with invalid user will redirect to root_path' do
+      login(other_user)
+      get :edit, params: { id: answer.id, format: :js }, xhr: true
+      expect(response).to redirect_to root_path
+    end
   end
 
   describe "PUT #update" do
     let!(:answer) { create(:answer, question: question, user: user) }
+    let(:other_user) { create(:user) }
 
     it 'with valid user will render edit template' do
       login(user)
       put :update, params: { id: answer.id, answer: { body: 'other answer' }, format: :js }
       expect(response).to render_template :update
+    end
+
+    it 'with invalid user will redirect to root_path' do
+      login(other_user)
+      put :update, params: { id: answer.id, answer: { body: 'other answer' }, format: :js }
+      expect(response).to redirect_to root_path
     end
   end
 end
