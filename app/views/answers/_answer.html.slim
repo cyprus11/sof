@@ -1,6 +1,9 @@
-div class = "answer-#{answer.id}"
+div class = "answer-#{answer.id} answer"
   span class = "answer-body-#{answer.id}" = answer.body
   <br>
+  - if current_user&.author_of?(answer.question) && answer.persisted?
+    = link_to 'Mark as best answer', mark_as_best_answer_path(answer), method: :put, remote: true
+
   - if current_user&.author_of?(answer) && answer.persisted?
     = link_to 'Edit answer', edit_answer_path(answer), remote: true
     = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true

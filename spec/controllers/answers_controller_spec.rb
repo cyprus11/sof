@@ -92,19 +92,18 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe "PUT #mark_as_best_answer" do
+  describe "PUT #mark_as_best" do
     let(:other_user) { create(:user) }
-    let!(:answer) { create(:answer, question: question, user: other) }
+    let!(:answer) { create(:answer, question: question, user: other_user) }
 
     it 'mark answer as best and render js template' do
       login(question.user)
-      put :mark_as_best_answer, params: { id: answer.id, format: :js}
-      expect(assigns(:best_answer)).to eq answer
-      expect(response).to render_template :mark_as_best_answer
+      put :mark_as_best, params: { id: answer.id, format: :js}
+      expect(response).to render_template :mark_as_best
     end
 
     it 'will redirect to root_path' do
-      put :mark_as_best_answer, params: { id: answer.id, format: :js}
+      put :mark_as_best, params: { id: answer.id, format: :js}
       expect(response).to redirect_to root_path
     end
   end

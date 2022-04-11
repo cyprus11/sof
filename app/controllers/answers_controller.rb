@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :set_question, only: %i[create]
-  before_action :find_answer, only: %i[destroy edit update]
+  before_action :find_answer, only: %i[destroy edit update mark_as_best]
   before_action :redirect_to_root_page, only: %i[edit update destroy]
 
   def create
@@ -16,6 +16,13 @@ class AnswersController < ApplicationController
     else
       flash[:alert] = 'Error'
     end
+  end
+
+  def mark_as_best
+    redirect_to(root_path, alert: "You can't do this") and return unless current_user&.author_of?(@answer.question)
+
+    @answer.mark_as_best!
+    @other_answers = @answer.question.answers.where.not(id: @answer.id)
   end
 
   def edit

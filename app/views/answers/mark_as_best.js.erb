@@ -1,0 +1,3 @@
+$('.answers').html('')
+$('.answers').append('<%= render 'answers/best_answer', answer: @answer %>')
+$('.answers').append('<%= render @answer.question.other_answers %>')

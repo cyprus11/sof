@@ -6,6 +6,7 @@ FactoryBot.define do
   factory :question do
     title
     body { "MyText" }
+    best_answer_id { nil }
     user
 
     trait :invalid do
