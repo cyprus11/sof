@@ -11,8 +11,11 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy!
-    redirect_to question_path(@answer.question), notice: 'Your answer was deleted'
+    if @answer.destroy!
+      flash[:notice] = 'Your answer was deleted'
+    else
+      flash[:alert] = 'Error'
+    end
   end
 
   def edit

@@ -7,7 +7,7 @@ feature 'User delete answer', %q{
   given(:other_question) { create(:question) }
   given(:user) { create(:user) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     given!(:answer) { create(:answer, user: user, question: question) }
     given!(:other_answer) { create(:answer, question: other_question) }
     background { sign_in(user) }

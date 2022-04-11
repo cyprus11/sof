@@ -1,0 +1,6 @@
+<% if flash[:notice].present? %>
+  $('.notice').html('<%= flash[:notice] %>')
+  $('.answer-<%= @answer.id %>').remove()
+<% else %>
+  $('.alert').html('<%= flash[:alert] %>')
+<% end %>

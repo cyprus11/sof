@@ -34,12 +34,12 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with valid user' do
       it 'deletes a question' do
-        expect { delete :destroy, params: { question_id: question, id: answer } }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, params: { id: answer, format: :js } }.to change(Answer, :count).by(-1)
       end
 
       it 'redirect to question page' do
-        delete :destroy, params: { question_id: question, id: answer }
-        expect(response).to redirect_to question_path(question)
+        delete :destroy, params: {id: answer, format: :js }
+        expect(response).to render_template :destroy
       end
     end
 
@@ -48,11 +48,11 @@ RSpec.describe AnswersController, type: :controller do
       before { login(invalid_user) }
 
       it 'will not delete a question' do
-        expect { delete :destroy, params: { question_id: question, id: answer } }.to_not change(Answer, :count)
+        expect { delete :destroy, params: { id: answer, format: :js } }.to_not change(Answer, :count)
       end
 
       it 'redirect to root page' do
-        delete :destroy, params: { question_id: question, id: answer }
+        delete :destroy, params: { id: answer, format: :js }
         expect(response).to redirect_to root_path
       end
     end
