@@ -1,6 +1,7 @@
 h1.question-title= @question.title
 p.question-body= @question.body
-= render 'shared/files', resource: @question
+.question-files
+  = render 'shared/files', resource: @question
 .question-form
 - if current_user&.author_of?(@question)
   = link_to 'Delete question', question_path(@question), method: :delete

@@ -6,4 +6,6 @@
   = f.text_field :title
   = f.label :body, 'Question body'
   = f.text_area :body
+  = f.label :files, 'Question files', for: 'question-files'
+  = f.file_field :files, multiple: true, id: 'question-files'
   = f.submit
