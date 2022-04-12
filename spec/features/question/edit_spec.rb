@@ -66,6 +66,19 @@ feature 'User can edit his question', %q{
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
     end
+
+    scenario 'delete file from question' do
+      sign_in(question_with_file.user)
+      visit question_path(question_with_file)
+      expect(page).to have_link 'rails_helper.rb'
+
+      click_on 'Edit question'
+      click_on 'Delete file'
+      expect(page).to_not have_link 'rails_helper.rb'
+
+      click_on 'Update Question'
+      expect(page).to_not have_link 'rails_helper.rb'
+    end
   end
 
   scenario 'Not-authenticated user can not edit question' do

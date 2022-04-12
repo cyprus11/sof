@@ -1,5 +1,12 @@
 .question-errors
   = render 'shared/errors', resource: @question
+.question-edit-files
+  - if @question.files.attached?
+    - @question.files.each do |file|
+      div class = "file-#{file.id}"
+        = link_to file.filename.to_s, url_for(file)
+        = link_to 'Delete file', question_delete_file_path(@question, file), method: :delete, remote: true
+
 
 = form_with model: @question, local: false do |f|
   = f.label :title
