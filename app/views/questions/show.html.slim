@@ -1,7 +1,18 @@
-h1= @question.title
-p= @question.body
+h1.question-title= @question.title
+p.question-body= @question.body
+.question-form
 - if current_user&.author_of?(@question)
   = link_to 'Delete question', question_path(@question), method: :delete
+  = link_to 'Edit question', edit_question_path(@question), remote: true
+.answers
+  - if @question.best_answer_id.present?
+    = render 'answers/best_answer', answer: @question.best_answer
+  = render @question.other_answers
 - if current_user.present?
-  = render partial: 'answers/form'
-= render @question.answers
+  .answer-error
+    = render 'shared/errors', resource: @answer
+
+  = form_with model: [@question, @answer], local: false, html: { class: 'new_answer' } do |f|
+    = f.label :body
+    = f.text_area :body
+    = f.submit

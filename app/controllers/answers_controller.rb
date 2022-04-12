@@ -1,25 +1,35 @@
 class AnswersController < ApplicationController
   before_action :set_question, only: %i[create]
-  before_action :find_answer, only: :destroy
+  before_action :find_answer, only: %i[destroy edit update mark_as_best]
+  before_action :redirect_to_root_page, only: %i[edit update destroy]
 
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
 
-    if @answer.save
-      redirect_to question_path(@question)
-    else
-      render 'questions/show'
-    end
+    @answer.save
   end
 
   def destroy
-    if current_user&.author_of?(@answer)
-      @answer.destroy!
-      redirect_to question_path(@answer.question), notice: 'Your answer was deleted'
+    if @answer.destroy!
+      flash[:notice] = 'Your answer was deleted'
     else
-      redirect_to question_path(@answer.question), notice: "You can't do this"
+      flash[:alert] = 'Error'
     end
+  end
+
+  def mark_as_best
+    redirect_to(root_path, alert: "You can't do this") and return unless current_user&.author_of?(@answer.question)
+
+    @answer.mark_as_best!
+    @other_answers = @answer.question.answers.where.not(id: @answer.id)
+  end
+
+  def edit
+  end
+
+  def update
+    @answer.update(answer_params)
   end
 
   private
@@ -34,5 +44,9 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body)
+  end
+
+  def redirect_to_root_page
+    redirect_to(root_path, alert: "You can't do this") and return unless current_user&.author_of?(@answer)
   end
 end
