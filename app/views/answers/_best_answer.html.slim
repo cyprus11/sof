@@ -1,4 +1,5 @@
 div class = "answer-#{answer.id} answer" id = "best-answer"
   span This is the best answer!!!
   span class = "answer-body-#{answer.id}" = answer.body
+  = render 'shared/files', resource: answer
   <br>

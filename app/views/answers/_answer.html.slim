@@ -1,5 +1,6 @@
 div class = "answer-#{answer.id} answer"
   span class = "answer-body-#{answer.id}" = answer.body
+  = render 'shared/files', resource: answer
   <br>
   - if current_user&.author_of?(answer.question) && answer.persisted?
     = link_to 'Mark as best answer', mark_as_best_answer_path(answer), method: :put, remote: true
