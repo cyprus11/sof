@@ -4,4 +4,6 @@ div class = "answer-error-#{@answer.id}"
 = form_with model: @answer, local: false do |f|
   = f.label :body, 'Edited answer body', for: 'edited_body'
   = f.text_area :body, id: 'edited_body'
+  = f.label :files, 'Answer files', for: 'answer-files'
+  = f.file_field :files, multiple: true, id: 'answer-files'
   = f.submit
