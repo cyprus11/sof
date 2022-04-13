@@ -58,6 +58,19 @@ feature 'User edit answer', %q{
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
     end
+
+    scenario 'delete file from answer' do
+      sign_in(user)
+      visit question_path(question)
+      expect(page).to have_link 'rails_helper.rb'
+
+      click_on 'Edit answer'
+      click_on 'Delete file'
+      expect(page).to_not have_link 'rails_helper.rb'
+
+      click_on 'Update Answer'
+      expect(page).to_not have_link 'rails_helper.rb'
+    end
   end
 
   scenario "Not-authenticated user can't edit answers" do

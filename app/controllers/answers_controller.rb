@@ -32,6 +32,14 @@ class AnswersController < ApplicationController
     @answer.update(answer_params)
   end
 
+  def delete_file
+    answer = Answer.find(params[:answer_id])
+    redirect_to(root_path, alert: "You can't do this") and return unless current_user&.author_of?(answer)
+
+    @file_id = params[:id]
+    answer.files.find(@file_id).purge
+  end
+
   private
 
   def set_question
