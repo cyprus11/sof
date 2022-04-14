@@ -1,7 +1,16 @@
 div class = "answer-error-#{@answer.id}"
   = render 'shared/errors', resource: @answer
 
+.answer-edit-files
+  - if @answer.files.attached?
+    - @answer.files.each do |file|
+      div class = "file-#{file.id}"
+        = link_to file.filename.to_s, url_for(file)
+        = link_to 'Delete file', file_path(file), method: :delete, remote: true
+
 = form_with model: @answer, local: false do |f|
   = f.label :body, 'Edited answer body', for: 'edited_body'
   = f.text_area :body, id: 'edited_body'
+  = f.label :files, 'Answer files', for: 'answer-files'
+  = f.file_field :files, multiple: true, id: 'answer-files'
   = f.submit

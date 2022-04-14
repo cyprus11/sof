@@ -1,5 +1,7 @@
 h1.question-title= @question.title
 p.question-body= @question.body
+.question-files
+  = render 'shared/files', resource: @question
 .question-form
 - if current_user&.author_of?(@question)
   = link_to 'Delete question', question_path(@question), method: :delete
@@ -15,4 +17,6 @@ p.question-body= @question.body
   = form_with model: [@question, @answer], local: false, html: { class: 'new_answer' } do |f|
     = f.label :body
     = f.text_area :body
+    = f.label :files
+    = f.file_field :files, multiple: true
     = f.submit

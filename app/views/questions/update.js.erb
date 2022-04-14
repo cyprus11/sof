@@ -1,6 +1,7 @@
 $('.question-errors').html('<%= render 'shared/errors', resource: @question %>')
 $('.question-title').html('<%= @question.title %>')
 $('.question-body').html('<%= @question.body %>')
+$('.question-files').html('<%= render 'shared/files', resource: @question %>')
 <% unless @question.errors.any? %>
   $('.question-form').html('')
 <% end %>
