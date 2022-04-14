@@ -107,40 +107,4 @@ RSpec.describe AnswersController, type: :controller do
       expect(response).to redirect_to root_path
     end
   end
-
-  describe 'DELETE #delete_file' do
-    context 'with valid user' do
-      let!(:question) { create(:question) }
-      let(:user) { create(:user) }
-      let(:answer) { create(:answer, :with_file, user: user, question: question) }
-      let(:file_id) { answer.files[0].id }
-      before { login(user) }
-
-      it 'deletes a file' do
-        expect { delete :delete_file, params: { answer_id: answer.id, id: file_id, format: :js } }.to change(answer.files, :count).by(-1)
-      end
-
-      it 'render delete_file template' do
-        delete :delete_file, params: { answer_id: answer.id, id: file_id, format: :js }
-        expect(response).to render_template :delete_file
-      end
-    end
-
-    context 'with invalid user' do
-      let!(:question) { create(:question) }
-      let(:invalid_user) { create(:user) }
-      let!(:answer) { create(:answer, :with_file, question: question, user: question.user) }
-      let(:file_id) { answer.files[0].id }
-      before { login(invalid_user) }
-
-      it 'will not delete a file' do
-        expect { delete :delete_file, params: { answer_id: answer.id, id: file_id, format: :js } }.to_not change(answer.files, :count)
-      end
-
-      it 'redirect to root_path' do
-        delete :delete_file, params: { answer_id: answer.id, id: file_id, format: :js }
-        expect(response).to redirect_to root_path
-      end
-    end
-  end
 end

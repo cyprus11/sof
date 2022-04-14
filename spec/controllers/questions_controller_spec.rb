@@ -114,37 +114,5 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'DELETE #delete_file' do
-    context 'with valid user' do
-      let!(:question_with_file) { create(:question, :with_file) }
-      let(:user) { question_with_file.user }
-      let(:file_id) { question_with_file.files[0].id }
-      before { login(user) }
 
-      it 'deletes a file' do
-        expect { delete :delete_file, params: { question_id: question_with_file.id, id: file_id, format: :js } }.to change(question_with_file.files, :count).by(-1)
-      end
-
-      it 'render delete_file template' do
-        delete :delete_file, params: { question_id: question_with_file.id, id: file_id, format: :js }
-        expect(response).to render_template :delete_file
-      end
-    end
-
-    context 'with invalid user' do
-      let(:invalid_user) { create(:user) }
-      let!(:question_with_file) { create(:question, :with_file) }
-      let(:file_id) { question_with_file.files[0].id }
-      before { login(invalid_user) }
-
-      it 'will not delete a file' do
-        expect { delete :delete_file, params: { question_id: question_with_file.id, id: file_id, format: :js } }.to_not change(question_with_file.files, :count)
-      end
-
-      it 'redirect to root_path' do
-        delete :delete_file, params: { question_id: question_with_file.id, id: file_id, format: :js }
-        expect(response).to redirect_to root_path
-      end
-    end
-  end
 end
