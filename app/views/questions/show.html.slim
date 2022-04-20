@@ -1,5 +1,8 @@
 h1.question-title= @question.title
 p.question-body= @question.body
+- if @question.links.any?
+    = render 'shared/links_list', resource: @question
+
 .question-files
   = render 'shared/files', resource: @question
 .question-form
@@ -19,4 +22,5 @@ p.question-body= @question.body
     = f.text_area :body
     = f.label :files
     = f.file_field :files, multiple: true
+    = render 'shared/links_form', form: f
     = f.submit
