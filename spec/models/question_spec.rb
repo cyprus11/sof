@@ -9,6 +9,10 @@ RSpec.describe Question, type: :model do
   it { should validate_presence_of :title }
   it { should validate_presence_of :body }
 
+  it "shouldn't be valid" do
+    expect(Question.new(title: 'My title', body: 'Question body', links_attributes: { '0': { name: 'some name', url: 'wrong url' }})).to_not be_valid
+  end
+
   it 'has attached files' do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end

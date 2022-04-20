@@ -18,4 +18,16 @@ feature 'Add link to answer', %q{
 
     expect(page).to have_link 'My url', href: link
   end
+
+  scenario 'user add wrong url', js: true do
+    sign_in(user)
+    visit question_path(question)
+    fill_in 'Body', with: 'my answer'
+    fill_in 'URL name', with: 'My url'
+    fill_in 'Url', with: 'www.wrong-link'
+
+    click_on 'Create Answer'
+
+    expect(page).to have_content 'URL not valid'
+  end
 end
