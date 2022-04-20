@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'Add link to question', %q{
-  in order to show code or xome source
+  in order to show code or some source
 } do
   given(:user) { create(:user) }
   given(:link) { 'https://www.google.ru'}

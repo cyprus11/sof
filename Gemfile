@@ -28,6 +28,9 @@ gem "slim-rails"
 gem "devise"
 gem 'aws-sdk-s3', require: false
 
+# for nested attributes
+gem 'cocoon'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
