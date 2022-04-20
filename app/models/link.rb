@@ -5,7 +5,7 @@ class Link < ApplicationRecord
   validates_with UrlValidator
 
   def gist?
-    self.url.start_with? 'https://gist.github.com/'
+    self.url&.start_with? 'https://gist.github.com/'
   end
 
   def gist_id
