@@ -7,7 +7,6 @@
         = link_to file.filename.to_s, url_for(file)
         = link_to 'Delete file', file_path(file), method: :delete, remote: true
 
-
 = form_with model: @question, local: false do |f|
   = f.label :title
   = f.text_field :title
@@ -15,4 +14,8 @@
   = f.text_area :body
   = f.label :files, 'Question files', for: 'question-files'
   = f.file_field :files, multiple: true, id: 'question-files'
+  = f.fields_for :links do |link|
+    = render 'link_fields', f: link
+  .links
+    = link_to_add_association 'Add link', f, :links
   = f.submit

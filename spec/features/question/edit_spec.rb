@@ -7,6 +7,7 @@ feature 'User can edit his question', %q{
   given(:user) { question.user }
   given(:other_user) { create(:user) }
   given(:question_with_file) { create(:question, :with_file) }
+  given(:question_with_link) { create(:question, :with_link, user: user) }
 
   describe 'Authenticated user', js: true do
     scenario 'edit his own question' do
@@ -78,6 +79,17 @@ feature 'User can edit his question', %q{
 
       click_on 'Update Question'
       expect(page).to_not have_link 'rails_helper.rb'
+    end
+
+    scenario 'can delete link' do
+      sign_in(user)
+      visit question_path(question_with_link)
+      expect(page).to have_link question_with_link.links.first.name
+
+      click_on 'Edit question'
+      click_on 'Remove link'
+      click_on 'Update Question'
+      expect(page).to_not have_link question_with_link.links.first.name
     end
   end
 

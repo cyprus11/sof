@@ -1,6 +1,7 @@
 h1.question-title= @question.title
 p.question-body= @question.body
-- if @question.links.any?
+div class = "question-links-#{@question.id}"
+  - if @question.links.any?
     = render 'shared/links_list', resource: @question
 
 .question-files
@@ -9,11 +10,12 @@ p.question-body= @question.body
 - if current_user&.author_of?(@question)
   = link_to 'Delete question', question_path(@question), method: :delete
   = link_to 'Edit question', edit_question_path(@question), remote: true
-.answers
-  - if @question.best_answer_id.present?
-    = render 'answers/best_answer', answer: @question.best_answer
-  - if @question.other_answers.any?
-    = render @question.other_answers
+- if @question.answers.any?
+  .answers
+    - if @question.best_answer_id.present?
+      = render 'answers/best_answer', answer: @question.best_answer
+    - if @question.other_answers.any?
+      = render @question.other_answers
 - if current_user.present?
   .answer-error
     = render 'shared/errors', resource: @answer
