@@ -11,4 +11,9 @@
     = render 'link_fields', f: link
   .links
     = link_to_add_association 'Add link', f, :links
+  .reward-create
+    = f.fields_for :reward do |r|
+      = r.label :name, 'Reward name'
+      = r.text_field :name
+      = r.file_field :file
   = f.submit 'Ask'

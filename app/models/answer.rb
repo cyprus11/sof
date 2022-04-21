@@ -12,5 +12,8 @@ class Answer < ApplicationRecord
 
   def mark_as_best!
     question.update(best_answer: self)
+    if question.reward.present?
+      question.reward.update(user: user)
+    end
   end
 end
