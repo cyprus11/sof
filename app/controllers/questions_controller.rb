@@ -9,10 +9,13 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.new
+    @answer.links.new
   end
 
   def new
     @question = current_user.questions.new
+    @question.links.new
+    @question.reward = Reward.new
   end
 
   def create
@@ -44,7 +47,9 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [],
+                                      links_attributes: [:id, :name, :url, :_destroy],
+                                      reward_attributes: [:name, :file])
   end
 
   def redirect_to_root_page

@@ -1,15 +1,21 @@
 h1.question-title= @question.title
 p.question-body= @question.body
+div class = "question-links-#{@question.id}"
+  - if @question.links.any?
+    = render 'shared/links_list', resource: @question
+
 .question-files
   = render 'shared/files', resource: @question
 .question-form
 - if current_user&.author_of?(@question)
   = link_to 'Delete question', question_path(@question), method: :delete
   = link_to 'Edit question', edit_question_path(@question), remote: true
-.answers
-  - if @question.best_answer_id.present?
-    = render 'answers/best_answer', answer: @question.best_answer
-  = render @question.other_answers
+- if @question.answers.any?
+  .answers
+    - if @question.best_answer_id.present?
+      = render 'answers/best_answer', answer: @question.best_answer
+    - if @question.other_answers.any?
+      = render @question.other_answers
 - if current_user.present?
   .answer-error
     = render 'shared/errors', resource: @answer
@@ -19,4 +25,8 @@ p.question-body= @question.body
     = f.text_area :body
     = f.label :files
     = f.file_field :files, multiple: true
+    = f.fields_for :links do |link|
+      = render 'link_fields', f: link
+    .links
+      = link_to_add_association 'Add link', f, :links
     = f.submit

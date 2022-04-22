@@ -4,4 +4,5 @@ $('.answer-error-<%= @answer.id %>').html('<%= render 'shared/errors', resource:
   $('.answer-form-<%= @answer.id %>').html('')
   $('.answer-body-<%= @answer.id %>').html('<%= @answer.body %>')
   $('.answer-files-<%= @answer.id %>').html('<%= render 'shared/files', resource: @answer %>')
+  $('.answer-links-<%= @answer.id %>').html('<%= render 'shared/links_list', resource: @answer %>')
 <% end %>

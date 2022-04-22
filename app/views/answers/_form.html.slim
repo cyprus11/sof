@@ -13,4 +13,8 @@ div class = "answer-error-#{@answer.id}"
   = f.text_area :body, id: 'edited_body'
   = f.label :files, 'Answer files', for: 'answer-files'
   = f.file_field :files, multiple: true, id: 'answer-files'
+  = f.fields_for :links do |link|
+    = render 'link_fields', f: link
+  .links
+    = link_to_add_association 'Add link', f, :links
   = f.submit

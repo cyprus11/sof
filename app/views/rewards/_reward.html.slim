@@ -1,0 +1,7 @@
+.row
+  .col-4
+    p= reward.question.title
+  .col-4
+    = image_tag reward.file.variant(resize_to_limit: [100, 100])
+  .col-4
+    p= reward.name

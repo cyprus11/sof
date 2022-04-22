@@ -2,6 +2,9 @@ $('.question-errors').html('<%= render 'shared/errors', resource: @question %>')
 $('.question-title').html('<%= @question.title %>')
 $('.question-body').html('<%= @question.body %>')
 $('.question-files').html('<%= render 'shared/files', resource: @question %>')
+<% if @question.links.any? %>
+  $('.question-links-<%= @question.id %>').html('<%= render 'shared/links_list', resource: @question %>')
+<% end %>
 <% unless @question.errors.any? %>
   $('.question-form').html('')
 <% end %>

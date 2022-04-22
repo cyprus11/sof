@@ -1,3 +1,4 @@
 $('.question-form').html('<%= j render partial: 'form' %>');
 $('.question-files').html('')
+$('.question-links-<%= @question.id %>').html('')
 $('.question-errors').html('<%= render 'shared/errors', resource: @question %>');
