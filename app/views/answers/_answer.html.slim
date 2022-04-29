@@ -7,6 +7,9 @@ div class = "answer-#{answer.id} answer"
     - if answer.links.any?
       = render 'shared/links_list', resource: answer
 
+  .votes
+    = render 'answers/vote_links', answer: answer
+
   - if current_user&.author_of?(answer.question) && answer.persisted?
     = link_to 'Mark as best answer', mark_as_best_answer_path(answer), method: :put, remote: true
 

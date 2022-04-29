@@ -1,0 +1,12 @@
+.vote-wrapper
+  - if current_user && !current_user.author_of?(answer)
+    .vote-action
+      .vote-res hidden=('hidden' unless answer.voted?(current_user))
+        span You choice: <b class="user-choice"> #{ answer.vote_plus?(current_user) ? '+' : '-'} </b>
+        span = link_to 'Decline your vote', unvote_answer_path(answer), class: 'unvote', remote: true, method: :delete, data: { format: :json }
+      .vote-answer hidden=('hidden' if answer.voted?(current_user))
+        span= link_to '+', vote_answer_path(answer, vote_plus: true), class: 'vote', remote: true, method: :post, data: { format: :json }
+        span |
+        span= link_to '-', vote_answer_path(answer, vote_plus: false), class: 'vote', remote: true, method: :post, data: { format: :json }
+
+  span All votes diff: <b class="votes-diff">#{ answer.votes_result }</b>

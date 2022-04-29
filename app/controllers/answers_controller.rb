@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  include Voted
+
   before_action :set_question, only: %i[create]
   before_action :find_answer, only: %i[destroy edit update mark_as_best]
   before_action :redirect_to_root_page, only: %i[edit update destroy]
