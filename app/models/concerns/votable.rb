@@ -6,14 +6,14 @@ module Votable
   end
 
   def votes_result
-    votes.agree.size - votes.disagree.size
+    votes.sum(:vote_plus)
   end
 
   def vote_plus?(user)
-    votes.where(user: user)&.first&.vote_plus
+    votes.where(user: user)&.first&.vote_plus == 1
   end
 
   def voted?(user)
-    Vote.find_by(votable: self, user: user)
+    votes.exists?(user: user)
   end
 end
