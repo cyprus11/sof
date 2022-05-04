@@ -1,19 +1,20 @@
-div class = "answer-#{answer.id} answer"
-  span class = "answer-body-#{answer.id}" = answer.body
-  div class = "answer-files-#{answer.id}"
-    = render 'shared/files', resource: answer
-  <br>
-  div class = "answer-links-#{answer.id}"
-    - if answer.links.any?
-      = render 'shared/links_list', resource: answer
+.card
+  div class = "answer-#{answer.id} answer card-body"
+    span class = "answer-body-#{answer.id}" = answer.body
+    div class = "answer-files-#{answer.id}"
+      = render 'shared/files', resource: answer
+    <br>
+    div class = "answer-links-#{answer.id}"
+      - if answer.links.any?
+        = render 'shared/links_list', resource: answer
 
-  .votes
-    = render 'answers/vote_links', answer: answer
+    .votes
+      = render 'answers/vote_links', answer: answer
 
-  - if current_user&.author_of?(answer.question) && answer.persisted?
-    = link_to 'Mark as best answer', mark_as_best_answer_path(answer), method: :put, remote: true
+    - if current_user&.author_of?(answer.question) && answer.persisted?
+      = link_to 'Mark as best answer', mark_as_best_answer_path(answer), method: :put, remote: true, class: 'card-link'
 
-  - if current_user&.author_of?(answer) && answer.persisted?
-    = link_to 'Edit answer', edit_answer_path(answer), remote: true
-    = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
-  div class = "answer-form-#{answer.id}"
+    - if current_user&.author_of?(answer) && answer.persisted?
+      = link_to 'Edit answer', edit_answer_path(answer), remote: true, class: 'card-link'
+      = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, class: 'card-link'
+    div class = "answer-form-#{answer.id}"

@@ -2,6 +2,7 @@ class QuestionsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
   before_action :set_question, only: %i[show destroy edit update]
   before_action :redirect_to_root_page, only: %i[edit update destroy]
+  after_action :publish_question, only: :create
 
   def index
     @questions = Question.all
@@ -54,5 +55,16 @@ class QuestionsController < ApplicationController
 
   def redirect_to_root_page
     redirect_to(root_path, alert: "You can't do this") and return unless current_user&.author_of?(@question)
+  end
+
+  def publish_question
+    return if @question.errors.any?
+    ActionCable.server.broadcast(
+      'questions',
+      ApplicationController.render(
+        partial: 'questions/question',
+        locals: {question: @question}
+        )
+      )
   end
 end

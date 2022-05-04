@@ -1,19 +1,28 @@
 = render 'shared/errors', resource: @question
 
 = form_with model: @question, local: true do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.label :files
-  = f.file_field :files, multiple: true
+  .mb-3.row
+    = f.label :title, class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      = f.text_field :title, class: 'form-control'
+  .mb-3.row
+    = f.label :body, class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      = f.text_area :body, class: 'form-control'
+  .mb-3.row
+    = f.label :files, class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      = f.file_field :files, multiple: true, class: 'form-control'
   = f.fields_for :links do |link|
     = render 'link_fields', f: link
   .links
     = link_to_add_association 'Add link', f, :links
   .reward-create
     = f.fields_for :reward do |r|
-      = r.label :name, 'Reward name'
-      = r.text_field :name
-      = r.file_field :file
-  = f.submit 'Ask'
+      .mb-3.row
+        = r.label :name, 'Reward name', class: 'col-sm-2 col-form-label'
+        .col-sm-5
+          = r.text_field :name, class: 'form-control'
+        .col-sm-5
+          = r.file_field :file, class: 'form-control'
+  = f.submit 'Ask', class: 'btn btn-primary btn-lg'
