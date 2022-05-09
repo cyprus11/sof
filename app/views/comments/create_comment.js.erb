@@ -1,0 +1,8 @@
+$('.comment-error').html('<%= render 'shared/errors', resource: @comment %>')
+
+<% if @comment.persisted? %>
+  var commentsBlock =  $(".<%= @comment.commentable_type.downcase %>-<%= @comment.commentable_id %>-comments")
+  commentsBlock.append("<%= j render @comment %>")
+  if (commentsBlock.css('display') == 'none') { commentsBlock.toggle() }
+  $(".comment-form").modal("hide")
+<% end %>

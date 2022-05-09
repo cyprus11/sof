@@ -17,6 +17,7 @@ import { Tooltip, Popover } from "bootstrap"
 require("../stylesheets/application.scss")
 require('jquery')
 require("@nathanvda/cocoon")
+
 require('./utilites/vote.js')
 
 window.jQuery = $;

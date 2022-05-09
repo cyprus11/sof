@@ -1,9 +1,11 @@
 class AnswersController < ApplicationController
   include Voted
+  include Commented
 
   before_action :set_question, only: %i[create]
   before_action :find_answer, only: %i[destroy edit update mark_as_best]
   before_action :redirect_to_root_page, only: %i[edit update destroy]
+  after_action :publish_answer, only: :create
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -51,5 +53,20 @@ class AnswersController < ApplicationController
 
   def redirect_to_root_page
     redirect_to(root_path, alert: "You can't do this") and return unless current_user&.author_of?(@answer)
+  end
+
+  def publish_answer
+    ActionCable.server.broadcast(
+      "question_channel_#{@answer.question_id}",
+      {
+        id: @answer.id,
+        body: @answer.body,
+        files: @answer.files.map { |file| { name: file.filename.to_s, url: url_for(file) } },
+        links: @answer.links.map { |link| { name: link.name, url: link.url } },
+        user_id: @answer.user_id,
+        question_author_id: @answer.question.user_id,
+        type: 'answer'
+      }
+    )
   end
 end

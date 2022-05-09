@@ -35,7 +35,7 @@ gem 'cocoon'
 gem 'bootsnap', '>= 1.4.4', require: false
 
 # for jst templates
-gem 'skim'
+# gem 'skim'
 gem 'gon'
 
 group :development, :test do

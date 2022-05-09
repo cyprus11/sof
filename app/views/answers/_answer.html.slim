@@ -11,10 +11,15 @@
     .votes
       = render 'answers/vote_links', answer: answer
 
+    = render 'shared/comments', resource: answer
+
     - if current_user&.author_of?(answer.question) && answer.persisted?
       = link_to 'Mark as best answer', mark_as_best_answer_path(answer), method: :put, remote: true, class: 'card-link'
 
     - if current_user&.author_of?(answer) && answer.persisted?
       = link_to 'Edit answer', edit_answer_path(answer), remote: true, class: 'card-link'
       = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, class: 'card-link'
+
+    - if current_user && answer.persisted?
+      = link_to 'Comment answer', new_comment_answer_path(answer), remote: true, class: 'card-link'
     div class = "answer-form-#{answer.id}"

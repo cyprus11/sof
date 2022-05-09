@@ -12,8 +12,11 @@
     - if current_user&.author_of?(@question)
       = link_to 'Delete question', question_path(@question), method: :delete, class: 'card-link'
       = link_to 'Edit question', edit_question_path(@question), remote: true, class: 'card-link'
+    - if user_signed_in?
+      = link_to 'Add comment to question', new_comment_question_path(@question), remote: true, class: 'card-link'
+    = render 'shared/comments', resource: @question
   - if @question.answers.any?
-    .answers
+    div class="answers" data-channel="#{@question.id}"
       - if @question.best_answer_id.present?
         = render 'answers/best_answer', answer: @question.best_answer
       - if @question.other_answers.any?
@@ -36,3 +39,4 @@
       .links
         = link_to_add_association 'Add link', f, :links
       = f.submit 'Create Answer', class: 'btn btn-primary'
+.new-comment

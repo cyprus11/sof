@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  include Commented
+
   skip_before_action :authenticate_user!, only: %i[index show]
   before_action :set_question, only: %i[show destroy edit update]
   before_action :redirect_to_root_page, only: %i[edit update destroy]

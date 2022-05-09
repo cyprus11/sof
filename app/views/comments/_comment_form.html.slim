@@ -1,0 +1,16 @@
+div class="modal comment-form" tabindex="-1"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        h5.modal-title New comment
+        button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+      = form_with model: @comment, url: [:create_comment, @commentable], local: false do |f|
+        .modal-body
+          .comment-error
+            = render 'shared/errors', resource: @comment
+          .mb-3
+            = f.label :body, 'Comment body', class: "form-label"
+            = f.text_area :body, class: "form-control"
+        .modal-footer
+          button type="button" class="btn btn-secondary" data-bs-dismiss="modal" Close
+          = f.submit "Save comment", class: "btn btn-primary"
