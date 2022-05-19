@@ -5,4 +5,4 @@ div class = "links-list-#{resource&.id}"
       - if link.gist?
         div data-gist = "#{link.url}"
       - else
-        li= link_to link.name, link.url
+        li= link_to link.name, link.url, class: 'card-link'

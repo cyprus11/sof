@@ -1,0 +1,45 @@
+<div class="card">
+  <div class="answer-{{id}} answer card-body">
+    <span class="answer-body-{{id}}">{{body}}</span>
+    <div class = "answer-files-{{id}}">
+      {{#files}}
+        <p><a class="card-link" href="{{url}}">{{name}}</a></p>
+      {{/files}}
+    </div>
+    <br>
+    <div class="answer-links-{{id}}">
+      <div class="links-list-{{id}}">
+        <p>Links:</p>
+        <ul>
+          {{#links}}
+            <li><a class="card-link" href="{{url}}">{{name}}</a></li>
+          {{/links}}
+        </ul>
+      </div>
+    </div>
+    <div class="votes">
+      <div class="vote-wrapper">
+        {{#if canVote}}
+        <div class="vote-action">
+          <div class="vote-res" hidden>
+            <span>You choice: <b class="user-choice"></b></span>
+            <span><a class="unvote" data-format="json" data-remote="true" rel="nofollow" data-method="delete" href="/answers/{{id}}/unvote">Decline your vote</a></span>
+          </div>
+          <div class="vote-answer">
+            <span><a class="vote" data-format="json" data-remote="true" rel="nofollow" data-method="post" href="/answers/{{id}}/vote?vote_plus=1">+</a></span>
+            <span>|</span>
+            <span><a class="vote" data-format="json" data-remote="true" rel="nofollow" data-method="post" href="/answers/{{id}}/vote?vote_plus=-1">-</a></span>
+          </div>
+        </div>
+        {{/if}}
+        <span>All votes diff: <b class="votes-diff">0</b></span>
+      </div>
+    </div>
+    <div class="answer-{{id}}-comments" style="display:none">
+      <p>Comments:</p>
+    </div>
+    {{#if isAuthor}}
+      <a class="card-link" data-remote="true" rel="nofollow" data-method="put" href="/answers/{{id}}/mark_as_best">Mark as best answer</a>
+    {{/if}}
+  </div>
+</div>

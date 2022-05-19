@@ -1,32 +1,42 @@
-h1.question-title= @question.title
-p.question-body= @question.body
-div class = "question-links-#{@question.id}"
-  - if @question.links.any?
-    = render 'shared/links_list', resource: @question
+.card
+  .card-body
+    h5.card-title.question-title= @question.title
+    h6.card-text.question-body= @question.body
+    div class = "question-links-#{@question.id}"
+      - if @question.links.any?
+        = render 'shared/links_list', resource: @question
 
-.question-files
-  = render 'shared/files', resource: @question
-.question-form
-- if current_user&.author_of?(@question)
-  = link_to 'Delete question', question_path(@question), method: :delete
-  = link_to 'Edit question', edit_question_path(@question), remote: true
-- if @question.answers.any?
-  .answers
-    - if @question.best_answer_id.present?
-      = render 'answers/best_answer', answer: @question.best_answer
-    - if @question.other_answers.any?
-      = render @question.other_answers
-- if current_user.present?
-  .answer-error
-    = render 'shared/errors', resource: @answer
+    .question-files
+      = render 'shared/files', resource: @question
+    .question-form
+    - if current_user&.author_of?(@question)
+      = link_to 'Delete question', question_path(@question), method: :delete, class: 'card-link'
+      = link_to 'Edit question', edit_question_path(@question), remote: true, class: 'card-link'
+    - if user_signed_in?
+      = link_to 'Add comment to question', new_comment_question_path(@question), remote: true, class: 'card-link'
+    = render 'shared/comments', resource: @question
+  - if @question.answers.any?
+    div class="answers" data-channel="#{@question.id}"
+      - if @question.best_answer_id.present?
+        = render 'answers/best_answer', answer: @question.best_answer
+      - if @question.other_answers.any?
+        = render @question.other_answers
+  - if current_user.present?
+    .answer-error
+      = render 'shared/errors', resource: @answer
 
-  = form_with model: [@question, @answer], local: false, html: { class: 'new_answer' } do |f|
-    = f.label :body
-    = f.text_area :body
-    = f.label :files
-    = f.file_field :files, multiple: true
-    = f.fields_for :links do |link|
-      = render 'link_fields', f: link
-    .links
-      = link_to_add_association 'Add link', f, :links
-    = f.submit
+    = form_with model: [@question, @answer], local: false, html: { class: 'new_answer' } do |f|
+      .mb-3.row
+        = f.label :body, class: 'col-sm-2 col-form-label'
+        .col-sm-10
+        = f.text_area :body, class: 'form-control'
+      .mb-3.row
+        = f.label :files, class: 'col-sm-2 col-form-label'
+        .col-sm-10
+        = f.file_field :files, multiple: true, class: 'form-control'
+      = f.fields_for :links do |link|
+        = render 'link_fields', f: link
+      .links
+        = link_to_add_association 'Add link', f, :links
+      = f.submit 'Create Answer', class: 'btn btn-primary'
+.new-comment

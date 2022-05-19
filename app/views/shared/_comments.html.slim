@@ -1,0 +1,3 @@
+div class="#{resource.class.name.downcase}-#{resource.id}-comments" style="display:#{resource.comments.any? ? 'block' : 'none'}"
+      p Comments:
+      = render resource.comments
