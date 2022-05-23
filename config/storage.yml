@@ -8,8 +8,8 @@ local:
 
 yandex:
   service: S3
-  access_key_id: <%= Rails.application.credentials.dig(:yandex, :access_key_id) %>
-  secret_access_key: <%= Rails.application.credentials.dig(:yandex, :secret_access_key) %>
+  access_key_id: <%= Rails.application.credentials.dig(Rails.env.to_sym, :yandex, :access_key_id) %>
+  secret_access_key: <%= Rails.application.credentials.dig(Rails.env.to_sym, :yandex, :secret_access_key) %>
   region: ru-central2
   bucket: dev-sof
   endpoint: 'https://storage.yandexcloud.net'

@@ -1,0 +1,9 @@
+.confirm-email
+  h3 Please, type your email
+  = form_with model: @user, url: :user_confirmation, method: :post do |f|
+    .mb-3.row
+      = f.hidden_field :confirmation_token
+      = f.label :email, class: 'col-sm-2 col-form-label'
+      .col-sm10
+        = f.text_field :email, class: 'form-control'
+    = f.submit 'Send confirmation email'
