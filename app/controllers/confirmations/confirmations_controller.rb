@@ -6,7 +6,9 @@ class Confirmations::ConfirmationsController < Devise::ConfirmationsController
   private
 
   def update_user_email
-    user = User.find_by(confirmation_token: params.dig(:user, :confirmation_token))
-    user.update!(email: params.dig(:user, :email))
+    if params.dig(:user, :confirmation_token).present?
+      user = User.find_by(confirmation_token: params.dig(:user, :confirmation_token))
+      user.update!(email: params.dig(:user, :email))
+    end
   end
 end

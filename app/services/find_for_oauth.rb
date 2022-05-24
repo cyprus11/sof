@@ -16,7 +16,9 @@ class FindForOauth
     else
       password = Devise.friendly_token[0, 20]
       if email.present?
-        user = User.create!(email: email, password: password, password_confirmation: password)
+        user = User.new(email: email, password: password, password_confirmation: password)
+        user.skip_confirmation!
+        user.save
         user.confirm
       else
         user = User.new(password: password, password_confirmation: password)
