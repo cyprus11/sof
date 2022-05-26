@@ -4,7 +4,6 @@ class AnswersController < ApplicationController
 
   before_action :set_question, only: %i[create]
   before_action :find_answer, only: %i[destroy edit update mark_as_best]
-  before_action :redirect_to_root_page, only: %i[edit update destroy]
   after_action :publish_answer, only: :create
 
   def create
@@ -15,6 +14,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
+    authorize @answer
     if @answer.destroy!
       flash[:notice] = 'Your answer was deleted'
     else
@@ -23,16 +23,18 @@ class AnswersController < ApplicationController
   end
 
   def mark_as_best
-    redirect_to(root_path, alert: "You can't do this") and return unless current_user&.author_of?(@answer.question)
+    authorize @answer
 
     @answer.mark_as_best!
     @other_answers = @answer.question.answers.where.not(id: @answer.id)
   end
 
   def edit
+    authorize @answer
   end
 
   def update
+    authorize @answer
     @answer.update(answer_params)
   end
 
@@ -49,10 +51,6 @@ class AnswersController < ApplicationController
   def answer_params
     params.require(:answer).permit(:body, files: [],
                                     links_attributes: [:id, :name, :url, :_destroy])
-  end
-
-  def redirect_to_root_page
-    redirect_to(root_path, alert: "You can't do this") and return unless current_user&.author_of?(@answer)
   end
 
   def publish_answer

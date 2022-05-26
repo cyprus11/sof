@@ -7,12 +7,14 @@ module Commented
   end
 
   def new_comment
+    authorize @commentable
     @comment = @commentable.comments.new
 
     render template: 'comments/new_comment'
   end
 
   def create_comment
+    authorize @commentable
     @comment = @commentable.comments.new(comment_params)
     @comment.user = current_user
 

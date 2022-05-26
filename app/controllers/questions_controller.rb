@@ -3,7 +3,6 @@ class QuestionsController < ApplicationController
 
   skip_before_action :authenticate_user!, only: %i[index show]
   before_action :set_question, only: %i[show destroy edit update]
-  before_action :redirect_to_root_page, only: %i[edit update destroy]
   after_action :publish_question, only: :create
 
   def index
@@ -32,14 +31,19 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
+    authorize @question
+
     @question.destroy!
     redirect_to(root_path, notice: 'Your question was deleted')
   end
 
   def edit
+    authorize @question
   end
 
   def update
+    authorize @question
+
     @question.update(question_params)
   end
 
@@ -53,10 +57,6 @@ class QuestionsController < ApplicationController
     params.require(:question).permit(:title, :body, files: [],
                                       links_attributes: [:id, :name, :url, :_destroy],
                                       reward_attributes: [:name, :file])
-  end
-
-  def redirect_to_root_page
-    redirect_to(root_path, alert: "You can't do this") and return unless current_user&.author_of?(@question)
   end
 
   def publish_question
