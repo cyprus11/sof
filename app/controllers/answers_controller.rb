@@ -4,6 +4,7 @@ class AnswersController < ApplicationController
 
   before_action :set_question, only: %i[create]
   before_action :find_answer, only: %i[destroy edit update mark_as_best]
+  before_action :authorize_answer, only: %i[destroy mark_as_best edit update]
   after_action :publish_answer, only: :create
 
   def create
@@ -14,7 +15,6 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    authorize @answer
     if @answer.destroy!
       flash[:notice] = 'Your answer was deleted'
     else
@@ -23,18 +23,14 @@ class AnswersController < ApplicationController
   end
 
   def mark_as_best
-    authorize @answer
-
     @answer.mark_as_best!
     @other_answers = @answer.question.answers.where.not(id: @answer.id)
   end
 
   def edit
-    authorize @answer
   end
 
   def update
-    authorize @answer
     @answer.update(answer_params)
   end
 
@@ -66,5 +62,9 @@ class AnswersController < ApplicationController
         type: 'answer'
       }
     )
+  end
+
+  def authorize_answer
+    authorize @answer
   end
 end

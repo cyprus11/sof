@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
 
   skip_before_action :authenticate_user!, only: %i[index show]
   before_action :set_question, only: %i[show destroy edit update]
+  before_action :authorize_question, only: %i[destroy edit update]
   after_action :publish_question, only: :create
 
   def index
@@ -31,19 +32,14 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    authorize @question
-
     @question.destroy!
     redirect_to(root_path, notice: 'Your question was deleted')
   end
 
   def edit
-    authorize @question
   end
 
   def update
-    authorize @question
-
     @question.update(question_params)
   end
 
@@ -68,5 +64,9 @@ class QuestionsController < ApplicationController
         locals: {question: @question}
         )
       )
+  end
+
+  def authorize_question
+    authorize @question
   end
 end
