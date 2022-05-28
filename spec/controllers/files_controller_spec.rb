@@ -32,7 +32,7 @@ RSpec.describe FilesController, type: :controller do
 
       it 'redirect to root_path' do
         delete :destroy, params: { id: file_id, format: :js }
-        expect(response).to redirect_to root_path
+        expect(response).to have_http_status 403
       end
     end
 
@@ -64,7 +64,7 @@ RSpec.describe FilesController, type: :controller do
 
       it 'redirect to root_path' do
         delete :destroy, params: { id: file_id, format: :js }
-        expect(response).to redirect_to root_path
+        expect(response).to have_http_status 403
       end
     end
   end

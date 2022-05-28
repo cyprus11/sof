@@ -3,6 +3,7 @@ module Voted
 
   included do
     before_action :set_voteble, only: %i[vote unvote]
+    before_action :authorize_votable, only: %i[vote unvote]
   end
 
   def vote
@@ -35,5 +36,9 @@ module Voted
 
   def render_error_json
     render json: { error: "Error" }, status: :unprocessable_entity
+  end
+
+  def authorize_votable
+    authorize @votable
   end
 end

@@ -4,6 +4,7 @@ module Commented
   included do
     before_action :set_commentable, only: %i[new_comment create_comment]
     after_action :publish_comment, only: :create_comment
+    before_action :authorize_commentable, only: %i[new_comment create_comment]
   end
 
   def new_comment
@@ -44,5 +45,9 @@ module Commented
       "question_channel_#{channel_id}",
       @comment.publish
     )
+  end
+
+  def authorize_commentable
+    authorize @commentable
   end
 end

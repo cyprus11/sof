@@ -1,5 +1,5 @@
 .vote-wrapper
-  - if current_user && !current_user.author_of?(answer)
+  - if policy(answer).vote?
     .vote-action
       .vote-res hidden=('hidden' unless answer.voted?(current_user))
         span You choice: <b class="user-choice"> #{ answer.vote_plus?(current_user) ? '+' : '-'} </b>

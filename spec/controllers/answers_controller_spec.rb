@@ -53,7 +53,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirect to root page' do
         delete :destroy, params: { id: answer, format: :js }
-        expect(response).to redirect_to root_path
+        expect(response).to have_http_status 403
       end
     end
   end
@@ -71,7 +71,7 @@ RSpec.describe AnswersController, type: :controller do
     it 'with invalid user will redirect to root_path' do
       login(other_user)
       get :edit, params: { id: answer.id, format: :js }, xhr: true
-      expect(response).to redirect_to root_path
+      expect(response).to have_http_status 403
     end
   end
 
@@ -88,7 +88,7 @@ RSpec.describe AnswersController, type: :controller do
     it 'with invalid user will redirect to root_path' do
       login(other_user)
       put :update, params: { id: answer.id, answer: { body: 'other answer' }, format: :js }
-      expect(response).to redirect_to root_path
+      expect(response).to have_http_status 403
     end
   end
 
@@ -104,7 +104,7 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'will redirect to root_path' do
       put :mark_as_best, params: { id: answer.id, format: :js}
-      expect(response).to redirect_to root_path
+      expect(response).to have_http_status 403
     end
   end
 end

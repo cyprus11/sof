@@ -9,7 +9,7 @@
     .question-files
       = render 'shared/files', resource: @question
     .question-form
-    - if current_user&.author_of?(@question)
+    - if policy(@question).edit? && policy(@question).destroy?
       = link_to 'Delete question', question_path(@question), method: :delete, class: 'card-link'
       = link_to 'Edit question', edit_question_path(@question), remote: true, class: 'card-link'
     - if user_signed_in?

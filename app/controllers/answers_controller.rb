@@ -4,7 +4,7 @@ class AnswersController < ApplicationController
 
   before_action :set_question, only: %i[create]
   before_action :find_answer, only: %i[destroy edit update mark_as_best]
-  before_action :redirect_to_root_page, only: %i[edit update destroy]
+  before_action :authorize_answer, only: %i[destroy mark_as_best edit update]
   after_action :publish_answer, only: :create
 
   def create
@@ -23,8 +23,6 @@ class AnswersController < ApplicationController
   end
 
   def mark_as_best
-    redirect_to(root_path, alert: "You can't do this") and return unless current_user&.author_of?(@answer.question)
-
     @answer.mark_as_best!
     @other_answers = @answer.question.answers.where.not(id: @answer.id)
   end
@@ -51,10 +49,6 @@ class AnswersController < ApplicationController
                                     links_attributes: [:id, :name, :url, :_destroy])
   end
 
-  def redirect_to_root_page
-    redirect_to(root_path, alert: "You can't do this") and return unless current_user&.author_of?(@answer)
-  end
-
   def publish_answer
     ActionCable.server.broadcast(
       "question_channel_#{@answer.question_id}",
@@ -68,5 +62,9 @@ class AnswersController < ApplicationController
         type: 'answer'
       }
     )
+  end
+
+  def authorize_answer
+    authorize @answer
   end
 end
