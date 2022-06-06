@@ -33,11 +33,13 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       defaults format: :json do
-        resources :profiles, only: [] do
+        resources :profiles, only: [:index] do
           get :me, on: :collection
         end
 
-        resources :questions, only: [:index]
+        resources :questions, only: %i[index show create update destroy] do
+          resources :answers, shallow: true, only: %i[index show create update destroy]
+        end
       end
     end
   end
