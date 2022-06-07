@@ -4,8 +4,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
   before_action :authorize_answer, only: %i[update destroy]
 
   def index
-    @answers = @question.answers
-    render json: @answers, each_serializer: AnswersSerializer
+    render json: @question.answers, each_serializer: AnswersSerializer
   end
 
   def show
@@ -13,13 +12,13 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_resource_owner
+    answer = @question.answers.new(answer_params)
+    answer.user = current_resource_owner
 
-    if @answer.save
-      render json: @answer, status: 201
+    if answer.save
+      render json: answer, status: 201
     else
-      render_error_json(@answer)
+      render_error_json(answer)
     end
   end
 

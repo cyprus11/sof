@@ -3,22 +3,22 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   before_action :authorize_question, only: %i[update destroy]
 
   def index
-    @questions = Question.all
-    render json: @questions, each_serializer: QuestionsSerializer
+    questions = Question.all
+    render json: questions, each_serializer: QuestionsSerializer
   end
 
   def show
-    @question = Question.with_attached_files.find(params[:id])
-    render json: @question
+    question = Question.with_attached_files.find(params[:id])
+    render json: question
   end
 
   def create
-    @question = current_resource_owner.questions.new(question_params)
+    question = current_resource_owner.questions.new(question_params)
 
-    if @question.save
-      render json: @question, status: 201
+    if question.save
+      render json: question, status: 201
     else
-      render_error_json(@question)
+      render_error_json(question)
     end
   end
 
