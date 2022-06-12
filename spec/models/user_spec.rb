@@ -7,6 +7,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:votes).dependent(:nullify) }
   it { should have_many(:comments).dependent(:destroy) }
   it { should have_many(:authorizations).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   context "author_of?" do
     let(:question) { create(:question) }

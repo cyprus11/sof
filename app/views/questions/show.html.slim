@@ -14,6 +14,7 @@
       = link_to 'Edit question', edit_question_path(@question), remote: true, class: 'card-link'
     - if user_signed_in?
       = link_to 'Add comment to question', new_comment_question_path(@question), remote: true, class: 'card-link'
+      = render 'shared/subscribe_links', resource: @question
     = render 'shared/comments', resource: @question
   - if @question.answers.any?
     div class="answers" data-channel="#{@question.id}"

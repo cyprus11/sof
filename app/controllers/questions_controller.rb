@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   include Commented
+  include Subscriptioned
 
   skip_before_action :authenticate_user!, only: %i[index show]
   before_action :set_question, only: %i[show destroy edit update]

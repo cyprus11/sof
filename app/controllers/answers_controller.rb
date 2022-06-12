@@ -6,6 +6,7 @@ class AnswersController < ApplicationController
   before_action :find_answer, only: %i[destroy edit update mark_as_best]
   before_action :authorize_answer, only: %i[destroy mark_as_best edit update]
   after_action :publish_answer, only: :create
+  after_action :send_notification_to_subscribers, only: :create
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -66,5 +67,11 @@ class AnswersController < ApplicationController
 
   def authorize_answer
     authorize @answer
+  end
+
+  def send_notification_to_subscribers
+    return unless @answer.persisted?
+
+    NewAnswerJob.perform_later(@answer)
   end
 end

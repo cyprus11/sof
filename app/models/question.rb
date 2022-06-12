@@ -1,5 +1,6 @@
 class Question < ApplicationRecord
   include Commentable
+  include Subscriptionable
 
   has_many :answers, dependent: :destroy
   belongs_to :user
@@ -15,7 +16,15 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :links, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :reward, reject_if: :all_blank
 
+  after_create :create_subscription_for_author
+
   def other_answers
     self.best_answer_id.present? ? answers.where.not(id: self.best_answer_id) : answers.where.not(id: nil)
+  end
+
+  private
+
+  def create_subscription_for_author
+    subscriptions.create(user_id: self.user_id)
   end
 end
