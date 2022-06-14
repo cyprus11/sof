@@ -1,4 +1,4 @@
 class Subscription < ApplicationRecord
   belongs_to :user
-  belongs_to :subscriptionable, polymorphic: true
+  belongs_to :question
 end

@@ -1,6 +1,5 @@
 class QuestionsController < ApplicationController
   include Commented
-  include Subscriptioned
 
   skip_before_action :authenticate_user!, only: %i[index show]
   before_action :set_question, only: %i[show destroy edit update]
@@ -14,6 +13,7 @@ class QuestionsController < ApplicationController
   def show
     @answer = @question.answers.new
     @answer.links.new
+    @subscription = @question.subscriptions.find_by(user: current_user)
   end
 
   def new

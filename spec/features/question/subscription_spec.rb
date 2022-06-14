@@ -16,7 +16,7 @@ feature 'User can subscribe on a questions', %q{
   describe 'Authenticated user' do
     given(:user) { create(:user) }
     given(:other_user) { create(:user) }
-    given(:subscription) { create(:subscription, :question_as_subscribe, user: other_user) }
+    given(:subscription) { create(:subscription, user: other_user) }
 
     context 'Question author' do
       background do
@@ -50,7 +50,7 @@ feature 'User can subscribe on a questions', %q{
       end
 
       scenario 'can unsubscribe from a question', js: true do
-        visit question_path(subscription.subscriptionable)
+        visit question_path(subscription.question)
         expect(page).to have_content 'Unsubscribe'
         click_on 'Unsubscribe'
         expect(page).to have_content 'Subscribe'

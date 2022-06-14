@@ -16,17 +16,12 @@ Rails.application.routes.draw do
     post :create_comment
   end
 
-  concern :subscriptionable do
-    post :subscribe
-    delete :unsubscribe
-  end
-
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks', registrations: 'confirmations/registrations', confirmations: 'confirmations/confirmations' }
   root to: 'questions#index'
 
   resources :questions do
     member do
-      concerns %i[commentable subscriptionable]
+      concerns :commentable
     end
 
     resources :answers, shallow: true, only: %i[create destroy edit update] do
@@ -36,6 +31,8 @@ Rails.application.routes.draw do
         concerns :commentable
       end
     end
+
+    resources :subscriptions, shallow: true, only: %i[create destroy]
   end
 
   resources :files, only: :destroy

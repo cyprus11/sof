@@ -18,12 +18,4 @@ class QuestionPolicy < ApplicationPolicy
   def create_comment?
     new_comment?
   end
-
-  def subscribe?
-    user.present? && record.subscriptions.where(user_id: user.id).empty?
-  end
-
-  def unsubscribe?
-    user.present? && record.subscriptions.where(user_id: user.id).present?
-  end
 end

@@ -1,12 +1,12 @@
 class Question < ApplicationRecord
   include Commentable
-  include Subscriptionable
 
   has_many :answers, dependent: :destroy
   belongs_to :user
   belongs_to :best_answer, class_name: 'Answer', optional: true
   has_many :links, dependent: :destroy, as: :linkable
   has_one :reward, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   has_many_attached :files
 
@@ -25,6 +25,6 @@ class Question < ApplicationRecord
   private
 
   def create_subscription_for_author
-    subscriptions.create(user_id: self.user_id)
+    subscriptions.create(user: self.user)
   end
 end

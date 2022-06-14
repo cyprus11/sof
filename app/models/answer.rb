@@ -13,6 +13,8 @@ class Answer < ApplicationRecord
 
   accepts_nested_attributes_for :links, reject_if: :all_blank, allow_destroy: true
 
+  after_create :send_notification_to_subscribers
+
   def mark_as_best!
     question.update(best_answer: self)
     if question.reward.present?
@@ -20,5 +22,10 @@ class Answer < ApplicationRecord
     end
   end
 
+  private
+
+  def send_notification_to_subscribers
+    NewAnswerJob.perform_later(self)
+  end
 
 end

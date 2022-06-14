@@ -3,8 +3,4 @@ class DigestPreview < ActionMailer::Preview
   def digest
     DigestMailer.digest
   end
-
-  def new_answer
-    DigestMailer.new_answer
-  end
 end

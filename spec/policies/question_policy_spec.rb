@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe QuestionPolicy, type: :policy do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
-  let(:subscription) { create(:subscription, :question_as_subscribe, user: user) }
-  let(:question_with_subscription) { subscription.subscriptionable }
+  let(:subscription) { create(:subscription, user: user) }
+  let(:question_with_subscription) { subscription.question }
   let(:other_user) { create(:user) }
 
   subject { described_class }
@@ -76,34 +76,6 @@ RSpec.describe QuestionPolicy, type: :policy do
 
     it 'deny create comment to question for quests' do
       expect(subject).to_not permit(nil, question)
-    end
-  end
-
-  permissions :subscribe? do
-    it 'allow to subscribe on a question' do
-      expect(subject).to permit(other_user, question)
-    end
-
-    it 'deny subscribe on a question for quests' do
-      expect(subject).to_not permit(nil, question)
-    end
-
-    it 'denysubscribe on a question if user already has a subscription' do
-      expect(subject).to_not permit(user, question)
-    end
-  end
-
-  permissions :unsubscribe? do
-    it 'allow to unsubscribe from a question' do
-      expect(subject).to permit(user, question_with_subscription)
-    end
-
-    it 'deny unsubscribe from a question for quests' do
-      expect(subject).to_not permit(nil, question_with_subscription)
-    end
-
-    it 'deny unsubscribe from a question for user if he does not have a subscription' do
-      expect(subject).to_not permit(other_user, question)
     end
   end
 end
