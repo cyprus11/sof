@@ -1,0 +1,4 @@
+- if @subscription
+  = link_to 'Unsubscribe', subscription_path(@subscription), remote: true, method: :delete, class: 'card-link subscribe-link'
+- else
+  = link_to 'Subscribe', question_subscriptions_path(@question), remote: true, method: :post, class: 'card-link subscribe-link'

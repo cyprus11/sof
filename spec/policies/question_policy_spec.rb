@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe QuestionPolicy, type: :policy do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
+  let(:subscription) { create(:subscription, user: user) }
+  let(:question_with_subscription) { subscription.question }
   let(:other_user) { create(:user) }
 
   subject { described_class }

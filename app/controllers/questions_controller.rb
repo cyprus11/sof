@@ -13,6 +13,7 @@ class QuestionsController < ApplicationController
   def show
     @answer = @question.answers.new
     @answer.links.new
+    @subscription = @question.subscriptions.find_by(user: current_user)
   end
 
   def new

@@ -19,6 +19,7 @@ require('jquery')
 require("@nathanvda/cocoon")
 
 require('./utilites/vote.js')
+require('./utilites/subscription.js')
 
 window.jQuery = $;
 window.$ = $;

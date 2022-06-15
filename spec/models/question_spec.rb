@@ -6,6 +6,7 @@ RSpec.describe Question, type: :model do
   it { should belong_to(:best_answer).optional(true) }
   it { should have_one(:reward) }
   it { should have_many(:comments).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
   it { should accept_nested_attributes_for :links }
   it { should accept_nested_attributes_for :reward }
 
