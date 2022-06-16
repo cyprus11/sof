@@ -56,6 +56,10 @@ gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'whenever', require: false
 
+# full-text search
+gem 'mysql2'
+gem 'thinking-sphinx'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -87,6 +91,7 @@ group :test do
   gem 'webdrivers'
   gem 'shoulda-matchers', '~> 5.0'
   gem 'capybara-email'
+  gem 'database_cleaner'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
