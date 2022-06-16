@@ -1,0 +1,20 @@
+= form_with url: '/search', id: 'search_form', method: :get do |f|
+  .d-flex
+    = f.text_field :query, class: 'form-control me-2', type: "search", placeholder: "Search", aria: { label: 'search' }
+    = f.submit 'Search', class: 'btn btn-outline-primary'
+  .form-group
+    .form-check.form-check-inline
+      = f.radio_button :type, 'all', class: 'form-check-input', checked: true
+      = f.label :type_all, 'All', class: 'form-check-label'
+    .form-check.form-check-inline
+      = f.radio_button :type, 'questions', class: 'form-check-input'
+      = f.label :type_questions, 'Questions', class: 'form-check-label'
+    .form-check.form-check-inline
+      = f.radio_button :type, 'answers', class: 'form-check-input'
+      = f.label :type_answers, 'Answers', class: 'form-check-label'
+    .form-check.form-check-inline
+      = f.radio_button :type, 'comments', class: 'form-check-input'
+      = f.label :type_comments, 'Comments', class: 'form-check-label'
+    .form-check.form-check-inline
+      = f.radio_button :type, 'users', class: 'form-check-input'
+      = f.label :type_users, 'Users', class: 'form-check-label'

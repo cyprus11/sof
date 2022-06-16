@@ -1,0 +1,7 @@
+- if @result.present?
+  - @result.each do |k, v|
+    h3 #{k.capitalize} result:
+    p
+      = render v
+- else
+  h1 I did not find any.
