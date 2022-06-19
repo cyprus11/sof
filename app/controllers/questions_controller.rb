@@ -7,7 +7,7 @@ class QuestionsController < ApplicationController
   after_action :publish_question, only: :create
 
   def index
-    @questions = Question.all
+    @questions = Question.all.order(created_at: :desc)
   end
 
   def show

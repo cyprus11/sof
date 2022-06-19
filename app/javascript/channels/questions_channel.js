@@ -11,7 +11,7 @@ document.addEventListener('turbolinks:load', function() {
       },
 
       received(data) {
-        $('.questions').append(data)
+        $('.questions').prepend(data)
       }
     });
   }
