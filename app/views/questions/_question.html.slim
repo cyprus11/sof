@@ -1,3 +1,8 @@
-.card
-  .card-body
-    = link_to question.title, question_path(question)
+.card.row.flex-row
+  .col-md-2.col-xs-12
+    = t('.answers', count: question.answers.size)
+  .col-md-10.col-xs-12
+    .card-header
+      = link_to question.title, question_path(question)
+    .card-body
+      = question.body.truncate(150)

@@ -23,21 +23,23 @@
       - if @question.other_answers.any?
         = render @question.other_answers
   - if current_user.present?
-    .answer-error
-      = render 'shared/errors', resource: @answer
+    .container
+      h2 Write your answer
+      .answer-error
+        = render 'shared/errors', resource: @answer
 
-    = form_with model: [@question, @answer], local: false, html: { class: 'new_answer' } do |f|
-      .mb-3.row
-        = f.label :body, class: 'col-sm-2 col-form-label'
-        .col-sm-10
-        = f.text_area :body, class: 'form-control'
-      .mb-3.row
-        = f.label :files, class: 'col-sm-2 col-form-label'
-        .col-sm-10
-        = f.file_field :files, multiple: true, class: 'form-control'
-      = f.fields_for :links do |link|
-        = render 'link_fields', f: link
-      .links
-        = link_to_add_association 'Add link', f, :links
-      = f.submit 'Create Answer', class: 'btn btn-primary'
+      = form_with model: [@question, @answer], local: false, html: { class: 'new_answer' } do |f|
+        .mb-3.row
+          = f.label :body, class: 'col-sm-2 col-form-label'
+          .col-sm-10
+          = f.text_area :body, class: 'form-control'
+        .mb-3.row
+          = f.label :files, class: 'col-sm-2 col-form-label'
+          .col-sm-10
+          = f.file_field :files, multiple: true, class: 'form-control'
+        = f.fields_for :links do |link|
+          = render 'link_fields', f: link
+        .links
+          = link_to_add_association 'Add link', f, :links
+        = f.submit 'Create Answer', class: 'btn btn-primary'
 .new-comment

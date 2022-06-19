@@ -9,7 +9,7 @@ RSpec.describe DigestMailer, type: :mailer do
     it "renders the headers" do
       expect(mail.subject).to eq("New questions on portal")
       expect(mail.to).to eq([user.email])
-      expect(mail.from).to eq(["info@sof.com"])
+      expect(mail.from).to eq(["deploy@tav-dev.tk"])
     end
 
     it "renders the body" do
