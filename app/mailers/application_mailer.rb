@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'info@sof.com'
+  default from: 'deploy@tav-dev.tk'
   layout 'mailer'
 end
