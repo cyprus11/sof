@@ -20,7 +20,7 @@
 # Learn more: http://github.com/javan/whenever
 
 every 1.day do
-  runner "DailyDigestJob.perform_now"
+  rake "send_digest:run"
 end
 
 every 30.minutes do
