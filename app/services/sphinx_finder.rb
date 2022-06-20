@@ -18,7 +18,7 @@ class SphinxFinder
   end
 
   def sanitize_query
-    @query.gsub('@', '\\@')
+    ThinkingSphinx::Query.escape(@query)
   end
 
   def find_by_query
