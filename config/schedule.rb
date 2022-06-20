@@ -24,5 +24,5 @@ every 1.day do
 end
 
 every 30.minutes do
-  rake "ts:index"
+  rake "ts:rebuild"
 end
