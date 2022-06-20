@@ -30,3 +30,5 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "tmp/webpack
 
 # rvm
 set :rvm_custom_path, '/usr/share/rvm'
+
+after 'deploy:publishing', 'unicorn:restart'
