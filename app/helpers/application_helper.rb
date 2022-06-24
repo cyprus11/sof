@@ -21,6 +21,6 @@ module ApplicationHelper
 
   def resource_cash_for(resource, user)
     klass_name = resource.class.name.downcase
-    "#{klass_name}/user-#{user.id}-#{resource.updated_at}"
+    "#{klass_name}/user-#{user.id}-#{resource.id}-#{resource.updated_at}"
   end
 end
