@@ -1,3 +1,4 @@
-section
-  h6 #{comment.user.email}:
-  p= comment.body
+- cache comment do
+  section
+    h6 #{comment.user.email}:
+    p= comment.body

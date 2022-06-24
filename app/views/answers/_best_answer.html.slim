@@ -1,7 +1,8 @@
-.card
-  div class = "answer-#{answer.id} answer card-body" id = "best-answer"
-    span This is the best answer!!!
-    span class = "answer-body-#{answer.id}" = answer.body
-    div class = "answer-files-#{answer.id}"
-      = render 'shared/files', resource: answer
-    <br>
+- cache answer do
+  .card
+    div class = "answer-#{answer.id} answer card-body" id = "best-answer"
+      span This is the best answer!!!
+      span class = "answer-body-#{answer.id}" = answer.body
+      div class = "answer-files-#{answer.id}"
+        = render 'shared/files', resource: answer
+      <br>

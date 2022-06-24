@@ -1,25 +1,28 @@
 .card
   div class = "answer-#{answer.id} answer card-body"
-    span class = "answer-body-#{answer.id}" = answer.body
-    div class = "answer-files-#{answer.id}"
-      = render 'shared/files', resource: answer
-    <br>
-    div class = "answer-links-#{answer.id}"
-      - if answer.links.any?
-        = render 'shared/links_list', resource: answer
+    - cache answer
+      span class = "answer-body-#{answer.id}" = answer.body
+      div class = "answer-files-#{answer.id}"
+        = render 'shared/files', resource: answer
+      <br>
+      div class = "answer-links-#{answer.id}"
+        - if answer.links.any?
+          = render 'shared/links_list', resource: answer
 
-    .votes
-      = render 'answers/vote_links', answer: answer
+      .votes
+        = render 'answers/vote_links', answer: answer
 
-    = render 'shared/comments', resource: answer
+      = render 'shared/comments', resource: answer
 
-    - if policy(answer).mark_as_best? && answer.persisted?
-      = link_to 'Mark as best answer', mark_as_best_answer_path(answer), method: :put, remote: true, class: 'card-link'
+    - if user_signed_in?
+      - cache resource_cash_for(answer, current_user)
+        - if policy(answer).mark_as_best? && answer.persisted?
+          = link_to 'Mark as best answer', mark_as_best_answer_path(answer), method: :put, remote: true, class: 'card-link'
 
-    - if policy(answer).edit? && policy(answer).destroy? && answer.persisted?
-      = link_to 'Edit answer', edit_answer_path(answer), remote: true, class: 'card-link'
-      = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, class: 'card-link'
+        - if policy(answer).edit? && policy(answer).destroy? && answer.persisted?
+          = link_to 'Edit answer', edit_answer_path(answer), remote: true, class: 'card-link'
+          = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, class: 'card-link'
 
-    - if policy(answer).new_comment? && answer.persisted?
-      = link_to 'Comment answer', new_comment_answer_path(answer), remote: true, class: 'card-link'
+        - if policy(answer).new_comment? && answer.persisted?
+          = link_to 'Comment answer', new_comment_answer_path(answer), remote: true, class: 'card-link'
     div class = "answer-form-#{answer.id}"
